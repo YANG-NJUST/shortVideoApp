@@ -1,13 +1,64 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical" android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
 
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <ImageView
+            android:id="@+id/login"
+            android:layout_width="140dp"
+            android:layout_height="140dp"
+            android:layout_margin="10dp"
+            android:src="@mipmap/ic_launcher_round"
+            android:layout_centerHorizontal="true"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="0获赞"
+            android:textSize="30sp"
+            android:layout_below="@+id/login"
+            android:layout_toLeftOf="@+id/login"
+            />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="0关注"
+            android:textSize="30sp"
+            android:layout_below="@+id/login"
+            android:layout_centerHorizontal="true"
+            />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="0粉丝"
+            android:textSize="30sp"
+            android:layout_below="@+id/login"
+            android:layout_toRightOf="@+id/login"
+            />
+
+    </RelativeLayout>
 
     <TextView
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:text="Mine"
+        android:layout_height="wrap_content"
+        android:text="我的视频"
         android:textSize="30sp"
-        android:gravity="center"/>
+        android:layout_margin="10dp"/>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="我的好友"
+        android:textSize="30sp"
+        android:layout_margin="10dp"/>
+
+
 </LinearLayout>

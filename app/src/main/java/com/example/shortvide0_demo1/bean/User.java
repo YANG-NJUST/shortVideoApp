@@ -1,19 +1,30 @@
 package com.example.shortvide0_demo1.bean;
 
-public class User {
+import androidx.annotation.NonNull;
+
+import java.io.Serializable;
+
+public class User implements Serializable {
 
     private int id;
-    private String userName;
-    private String userPassword;
+    private String userAccount;
+    private String userPwd;
+    private int fanAmount;//粉丝数量
+    private int focusAmount;//关注人数
+    private int loveAmount;//点赞数
+
 
     public User() {
 
     }
 
-    public User(int id, String userName, String userPassword) {
+    public User(int id, String userName, String userPassword, int fanAmount, int focusAmount, int loveAmount) {
         this.id = id;
-        this.userName = userName;
-        this.userPassword = userPassword;
+        this.userAccount = userName;
+        this.userPwd = userPassword;
+        this.fanAmount = fanAmount;
+        this.focusAmount = focusAmount;
+        this.loveAmount = loveAmount;
     }
 
     public int getId() {
@@ -24,19 +35,50 @@ public class User {
         this.id = id;
     }
 
-    public String getUserName() {
-        return userName;
+    public String getUserAccount() {
+        return userAccount;
     }
 
-    public void setUserName(String userName) {
-        this.userName = userName;
+    public void setUserAccount(String userAccount) {
+        this.userAccount = userAccount;
     }
 
-    public String getUserPassword() {
-        return userPassword;
+    public String getUserPwd() {
+        return userPwd;
     }
 
-    public void setUserPassword(String userPassword) {
-        this.userPassword = userPassword;
+    public void setUserPwd(String userPwd) {
+        this.userPwd = userPwd;
+    }
+
+    public int getFanAmount() {
+        return fanAmount;
+    }
+
+    public void setFanAmount(int fanAmount) {
+        this.fanAmount = fanAmount;
+    }
+
+    public int getFocusAmount() {
+        return focusAmount;
+    }
+
+    public void setFocusAmount(int focusAmount) {
+        this.focusAmount = focusAmount;
+    }
+
+    public int getLoveAmount() {
+        return loveAmount;
+    }
+
+    public void setLoveAmount(int loveAmount) {
+        this.loveAmount = loveAmount;
+    }
+
+    @NonNull
+    @Override
+    public String toString() {
+        return "id:"+this.getId()+",userAccount:"+this.getUserAccount()+",userPwd:"+this.getUserPwd()+",fanAmount:"+this.getFanAmount()
+                +",focusAmount:"+this.getFocusAmount()+",loveAmount:"+this.loveAmount;
     }
 }

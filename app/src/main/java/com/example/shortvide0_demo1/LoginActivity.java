@@ -4,6 +4,7 @@ import android.Manifest;
 import android.app.Activity;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.util.Log;
@@ -11,36 +12,87 @@ import android.view.Menu;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ProgressBar;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
 
+import com.example.shortvide0_demo1.Gson.FromGson;
 import com.example.shortvide0_demo1.bean.User;
+import com.example.shortvide0_demo1.bean.Video;
+import com.example.shortvide0_demo1.net.INetCallBack;
+import com.example.shortvide0_demo1.net.OkHttpUtils;
+import com.google.gson.Gson;
+import com.google.gson.JsonArray;
+import com.google.gson.JsonElement;
+import com.google.gson.JsonParser;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
+import java.util.List;
 import java.util.Map;
 
 public class LoginActivity extends AppCompatActivity {
 
+    public static final String HTTP_129_168_0_100_8080_DEMO_USER = "http://192.168.0.100:8080/demo/user";
+    public static final String HTTP_192_168_0_100_8080_DEMO_VIDEO = "http://192.168.0.100:8080/demo/video";
     //声明控件
     private EditText mEtAccount;
     private EditText mEtPassword;
     private Button mBtnLogin;
     private Button mBtnRegister;
-    private String JsonObjectMsg;
-    private HashMap<Integer, User> userInfo = new HashMap<>();
+    private ProgressBar mPbLogin;
+    private List<User> userList = new ArrayList<>();
+    public static List<Video> videoList = new ArrayList<>();
     private static final int REQUEST_EXTERNAL_STORAGE = 1;
     private static String[] PERMISSIONS_STORAGE = {
             Manifest.permission.READ_EXTERNAL_STORAGE,
             Manifest.permission.WRITE_EXTERNAL_STORAGE
     };
+    private ProgressTask pTask;
+
+
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_login);
+        //控件初始化
+        initView();
+        //控件点击事件
+        initEvent();
+        //请求权限
+        verifyStoragePermissions(this);
+
+    }
+
+
+    @Override
+    protected void onResume() {
+        //读取服务器中所有用户信息来执行后续登录操作
+        super.onResume();
+        mPbLogin.setVisibility(View.INVISIBLE);
+        OkHttpUtils.getInstance().doGet(HTTP_129_168_0_100_8080_DEMO_USER, null, new INetCallBack() {
+            @Override
+            public void onSuccess(String response) {
+                userList = FromGson.getInstance().getUserBean(response);
+            }
+
+            @Override
+            public void onFailed(Throwable ex) {
+                Toast.makeText(LoginActivity.this, "网络请求失败", Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
 
     /**
      * Checks if the app has permission to write to device storage
@@ -61,42 +113,6 @@ public class LoginActivity extends AppCompatActivity {
                     REQUEST_EXTERNAL_STORAGE
             );
         }
-    }
-
-    @Override
-    public void onCreate(@Nullable Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_login);
-        //控件初始化
-        initView();
-        //控件点击事件
-        initEvent();
-        verifyStoragePermissions(this);
-    }
-
-    @Override
-    protected void onResume() {
-        //读取服务器中所有用户信息来执行后续登录操作
-        super.onResume();
-        Log.d("TAG", "LoginActivity的onResume执行了");
-        final RegisterActivity registerActivity = new RegisterActivity();
-        new Thread() {
-            @Override
-            public void run() {
-                super.run();
-                JsonObjectMsg = registerActivity.httpGet();
-                try {
-                    JSONArray ja = new JSONArray(JsonObjectMsg);
-                    for (int i = 0; i < ja.length(); i++) {
-                        JSONObject jo = ja.getJSONObject(i);
-                        userInfo.put(jo.getInt("id"),
-                                new User(jo.getInt("id"), jo.getString("useraccount"), jo.getString("userpwd")));
-                    }
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
-            }
-        }.start();
     }
 
     private void initEvent() {
@@ -120,15 +136,12 @@ public class LoginActivity extends AppCompatActivity {
         if (TextUtils.isEmpty(mEtAccount.getText()) || TextUtils.isEmpty(mEtPassword.getText())) {
             Toast.makeText(this, "请输入账号密码!", Toast.LENGTH_SHORT).show();
         } else {
-            //遍历存储用户信息的HashMap
-            Iterator iterator = userInfo.entrySet().iterator();
-            while (iterator.hasNext()) {
-                Map.Entry entry = (Map.Entry) iterator.next();
-                User user = (User) entry.getValue();
-                if (user.getUserName().equals(mEtAccount.getText().toString()) &&
-                        user.getUserPassword().equals(mEtPassword.getText().toString())) {
-                    Toast.makeText(this, "登录成功！", Toast.LENGTH_SHORT).show();
-                    startActivity(new Intent(this, MenuActivity.class));
+            //遍历存储用户信息的List<User>
+            for (User user : userList) {
+                if (mEtAccount.getText().toString().equals(user.getUserAccount()) && mEtPassword.getText().toString().equals(user.getUserPwd())) {
+                    //进入MenuActivity之前获取服务器端的视频
+                    pTask = new ProgressTask();
+                    pTask.execute(user);
                     return;
                 }
             }
@@ -137,28 +150,22 @@ public class LoginActivity extends AppCompatActivity {
     }
 
     private void toRegisterActivity() {
-        Intent intent = new Intent(this, RegisterActivity.class);
+        Intent intent = new Intent(LoginActivity.this, RegisterActivity.class);
+        Bundle bundle = new Bundle();
+        bundle.putSerializable("userList", (Serializable) userList);
+        intent.putExtras(bundle);
         startActivityForResult(intent, 1);
     }
 
+    /**
+     * 注册成功后返回注册信息
+     * @param requestCode
+     * @param resultCode
+     * @param data
+     */
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-//        String msg=data.getStringExtra("UserJsonObject");
-//        Log.d("TAG",msg );
-//        //解析JSONObject取出传回的用户名和密码
-//        try {
-//            JSONArray ja=new JSONArray(msg);
-//            JSONObject jo = ja.getJSONObject(0);
-//            int id = jo.getInt("id");
-//            String useraccount = jo.getString("useraccount");
-//            String userpwd = jo.getString("userpwd");
-//            //Log.d("TAG", "id="+id+"&useraccount"+useraccount+"&userpwd="+userpwd);
-//            mEtAccount.setText(useraccount);
-//            mEtPassword.setText(userpwd);
-//        } catch (JSONException e) {
-//            e.printStackTrace();
-//        }
         mEtAccount.setText(data.getStringExtra("account"));
         mEtPassword.setText(data.getStringExtra("pwd"));
     }
@@ -170,6 +177,82 @@ public class LoginActivity extends AppCompatActivity {
         mEtPassword.setText("123");
         mBtnLogin = findViewById(R.id.login_button);
         mBtnRegister = findViewById(R.id.register_button);
+        mPbLogin = findViewById(R.id.pb_login);
     }
 
+    private void getVideo() {
+
+        OkHttpUtils.getInstance().doGet(HTTP_192_168_0_100_8080_DEMO_VIDEO, null, new INetCallBack() {
+            @Override
+            public void onSuccess(String response) {
+                videoList = FromGson.getInstance().getVideoBean(response);
+                Log.d("LoginActivity", "videoList获取成功,视频数量：" + videoList.size());
+            }
+
+            @Override
+            public void onFailed(Throwable ex) {
+                Toast.makeText(LoginActivity.this, "网络请求失败", Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
+
+    /**
+     * Params:   execute方法的参数类型，doInBackground方法的参数类型
+     * Progress:进度,Integer
+     * Result:
+     */
+    class ProgressTask extends AsyncTask<User, Void, User> {
+
+
+        //执行线程任务之前的操作
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+            mPbLogin.setVisibility(View.VISIBLE);
+        }
+
+        //作用：接受输入的参数，执行任务中的耗时操作，返回线程任务的执行结果
+        @Override
+        protected User doInBackground(User... users) {
+            try {
+                Log.d("LoginActivity", "加载中=============================");
+                //进入主界面前获取服务器端视频
+                getVideo();
+                Thread.sleep(500);
+                Log.d("LoginActivity", "加载完成=============================");
+                return users[0];
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+            return null;
+        }
+
+//        //在主线程中显示线程任务的执行进度，在doInBackground方法中调用publishProgress方法则触发该方法
+//        @Override
+//        protected void onProgressUpdate(Integer... values) {
+//
+//        }
+
+        //接受线程任务的执行结果
+        @Override
+        protected void onPostExecute(User user) {
+            super.onPostExecute(user);
+            Intent intent = new Intent(LoginActivity.this, MenuActivity.class);
+            intent.putExtra("user", user);
+            startActivity(intent);
+        }
+
+        //取消(cancel)异步任务时触发该方法
+        @Override
+        protected void onCancelled() {
+            super.onCancelled();
+        }
+    }
+
+    //登录页面不可见时cancel AsyncTASK
+    @Override
+    protected void onStop() {
+        super.onStop();
+        pTask.cancel(true);
+    }
 }

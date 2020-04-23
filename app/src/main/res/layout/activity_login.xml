@@ -36,6 +36,14 @@
         android:text="注册" />
 
 
+    <ProgressBar
+        android:id="@+id/pb_login"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:visibility="invisible">
+
+    </ProgressBar>
 
 
 
