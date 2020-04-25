@@ -18,6 +18,7 @@
             android:layout_centerHorizontal="true"/>
 
         <TextView
+            android:id="@+id/tv_love_amount"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="0获赞"
@@ -27,6 +28,7 @@
             />
 
         <TextView
+            android:id="@+id/tv_focus_amount"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="0关注"
@@ -36,6 +38,7 @@
             />
 
         <TextView
+            android:id="@+id/tv_fan_amount"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="0粉丝"
@@ -46,12 +49,20 @@
 
     </RelativeLayout>
 
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="#000000"
+        android:layout_marginBottom="20dp"/>
+
+
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="我的视频"
         android:textSize="30sp"
-        android:layout_margin="10dp"/>
+        android:layout_margin="10dp"
+        />
 
     <TextView
         android:layout_width="match_parent"

@@ -32,8 +32,10 @@ import java.util.List;
 
 public class MenuActivity extends AppCompatActivity {
 
+    private static final String TAG = "MenuActivity";
     public static User user;
     public static List<Video> videoList;
+
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -42,12 +44,12 @@ public class MenuActivity extends AppCompatActivity {
 
         //获取从LoginActivity传来的User对象 即当前成功登录用户
         user = (User) getIntent().getSerializableExtra("user");
-        Log.d("MenuActivity", "当前用户信息： " + user);
+        Log.d(TAG, "当前用户信息： " + user);
 
         //获取当前服务器端的视频列表
         videoList = LoginActivity.videoList;
         for (Video video : videoList) {
-            Log.d("MenuActivity", "当前所有视频信息: " + video);
+            Log.d(TAG, "当前所有视频信息: " + video);
         }
 
         //得到FragmentManager打开事务处理

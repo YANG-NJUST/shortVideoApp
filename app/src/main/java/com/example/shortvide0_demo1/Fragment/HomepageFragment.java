@@ -24,6 +24,7 @@ import com.example.shortvide0_demo1.R;
 public class HomepageFragment extends Fragment {
 
 
+    private static final String TAG = "HomepageFragment";
     boolean flag = false;
 
     @Nullable
@@ -41,16 +42,13 @@ public class HomepageFragment extends Fragment {
             @Override
             public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
                 View v = LayoutInflater.from(getActivity()).inflate(R.layout.item_video, parent, false);
-                Log.d("HomepageFragment", "onCreateViewHolder: success");
+                Log.d(TAG, "onCreateViewHolder: success");
                 return new ViewHolder(v);
             }
 
             //绑定（为ViewHolder里面的控件设置显示内容）
             @Override
             public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position) {
-//                ViewHolder holder1 = (ViewHolder) holder;
-//                holder1.videoView.setVideoPath(.get(position));
-//                holder1.videoView.start();
                 ViewHolder holder1 = (ViewHolder) holder;
                 holder1.videoView.setVideoURI(Uri.parse(MenuActivity.videoList.get(position).getVideoUrl()));
                 holder1.tvUserName.setText(MenuActivity.videoList.get(position).getUploadUser());
@@ -74,7 +72,7 @@ public class HomepageFragment extends Fragment {
             //数量
             @Override
             public int getItemCount() {
-                Log.d("HomepageFragment", "getItemCount: " + MenuActivity.videoList.size());
+                Log.d(TAG, "getItemCount: " + MenuActivity.videoList.size());
                 return MenuActivity.videoList.size();
             }
         };

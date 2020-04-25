@@ -2,6 +2,7 @@ package com.example.shortvide0_demo1.Gson;
 
 import android.util.Log;
 
+import com.example.shortvide0_demo1.bean.FanFocus;
 import com.example.shortvide0_demo1.bean.User;
 import com.example.shortvide0_demo1.bean.Video;
 import com.google.gson.Gson;
@@ -17,6 +18,8 @@ import java.util.List;
  * 使用GSON解析Json数据
  */
 public class FromGson {
+
+    private static final String TAG = "FromGson";
 
     private static FromGson sInstance = new FromGson();
 
@@ -37,9 +40,9 @@ public class FromGson {
         for (JsonElement element : jsonElements) {
             Video video = gson.fromJson(element, Video.class);//解析
             videoList.add(video);
-            Log.d("FromGson", video.toString());
+            Log.d(TAG, video.toString());
         }
-        Log.d("FromGson", "videoList size= "+videoList.size());
+        Log.d(TAG, "videoList size= "+videoList.size());
         return videoList;
     }
 
@@ -56,9 +59,27 @@ public class FromGson {
         for (JsonElement element : jsonElements) {
             User user=gson.fromJson(element,User.class);
             userList.add(user);
-            Log.d("FromGson", user.toString());
+            Log.d(TAG, user.toString());
         }
         return userList;
+    }
+
+    /**
+     * 解析获取的数据转换为FanFocus类
+     * @param jsonData
+     * @return
+     */
+    public List getFanFocusBean(String jsonData){
+        Gson gson = new Gson();
+        JsonParser jsonParser=new JsonParser();
+        JsonArray jsonElements=jsonParser.parse(jsonData).getAsJsonArray();
+        List<FanFocus> fanFocusList=new ArrayList<>();
+        for (JsonElement element : jsonElements) {
+            FanFocus fanFocus=gson.fromJson(element,FanFocus.class);
+            fanFocusList.add(fanFocus);
+            Log.d(TAG, fanFocus.toString());
+        }
+        return fanFocusList;
     }
 
 

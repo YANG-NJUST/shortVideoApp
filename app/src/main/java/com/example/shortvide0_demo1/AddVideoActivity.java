@@ -39,7 +39,7 @@ public class AddVideoActivity extends AppCompatActivity {
 
 
     private static final String TAG = "AddVideoActivity";
-    public static final String HTTP_192_168_0_100_8080_DEMO_FILE_UPLOAD_FILE = "http://192.168.0.100:8080/demo/file/uploadFile";
+    public static final String HTTP_192_168_0_100_8080_DEMO_FILE_UPLOAD_FILE = "http://192.168.74.233:8080/demo/file/uploadFile";
     private int REQUEST_VIDEO_CODE = 1;
     private ImageView ivAddVideo;
     private Button btnCommit;
@@ -124,13 +124,6 @@ public class AddVideoActivity extends AppCompatActivity {
                         //ThumbnailUtils 利用createVideoThumbnail 通过路径得到缩略图，保持为视频的默认比例
                         // 第一个参数为 视频/缩略图的位置，第二个依旧是分辨率相关的kind
                         Bitmap bitmap2 = ThumbnailUtils.createVideoThumbnail(imagePath, MediaStore.Video.Thumbnails.MICRO_KIND);
-                        Log.d(TAG, "videoPath: " + videoPath);
-                        Log.d(TAG, "duration: " + duration);
-                        Log.d(TAG, "title: " + title);
-                        Log.d(TAG, "videoId: " + videoId);
-                        Log.d(TAG, "size: " + size);
-                        Log.d(TAG, "imagePath: " + imagePath);
-                        Log.d(TAG, "imageId: " + imageId);
                         ivAddVideo.setImageBitmap(bitmap2);
                     }
                 }

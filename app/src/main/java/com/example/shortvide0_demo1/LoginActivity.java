@@ -44,8 +44,8 @@ import java.util.Map;
 
 public class LoginActivity extends AppCompatActivity {
 
-    public static final String HTTP_129_168_0_100_8080_DEMO_USER = "http://192.168.0.100:8080/demo/user";
-    public static final String HTTP_192_168_0_100_8080_DEMO_VIDEO = "http://192.168.0.100:8080/demo/video";
+    public static final String HTTP_129_168_0_100_8080_DEMO_USER = "http://192.168.74.233:8080/demo/user";
+    public static final String HTTP_192_168_0_100_8080_DEMO_VIDEO = "http://192.168.74.233:8080/demo/video";
     //声明控件
     private EditText mEtAccount;
     private EditText mEtPassword;
