@@ -44,8 +44,7 @@ import java.util.Map;
 
 public class LoginActivity extends AppCompatActivity {
 
-    public static final String HTTP_129_168_0_100_8080_DEMO_USER = "http://192.168.74.233:8080/demo/user";
-    public static final String HTTP_192_168_0_100_8080_DEMO_VIDEO = "http://192.168.74.233:8080/demo/video";
+    private static final String TAG = "LoginActivity";
     //声明控件
     private EditText mEtAccount;
     private EditText mEtPassword;
@@ -57,7 +56,9 @@ public class LoginActivity extends AppCompatActivity {
     private static final int REQUEST_EXTERNAL_STORAGE = 1;
     private static String[] PERMISSIONS_STORAGE = {
             Manifest.permission.READ_EXTERNAL_STORAGE,
-            Manifest.permission.WRITE_EXTERNAL_STORAGE
+            Manifest.permission.WRITE_EXTERNAL_STORAGE,
+            Manifest.permission.CAMERA,
+            Manifest.permission.RECORD_AUDIO
     };
     private ProgressTask pTask;
 
@@ -81,7 +82,7 @@ public class LoginActivity extends AppCompatActivity {
         //读取服务器中所有用户信息来执行后续登录操作
         super.onResume();
         mPbLogin.setVisibility(View.INVISIBLE);
-        OkHttpUtils.getInstance().doGet(HTTP_129_168_0_100_8080_DEMO_USER, null, new INetCallBack() {
+        OkHttpUtils.getInstance().doGet(Constant.url+"/user", null, new INetCallBack() {
             @Override
             public void onSuccess(String response) {
                 userList = FromGson.getInstance().getUserBean(response);
@@ -182,11 +183,11 @@ public class LoginActivity extends AppCompatActivity {
 
     private void getVideo() {
 
-        OkHttpUtils.getInstance().doGet(HTTP_192_168_0_100_8080_DEMO_VIDEO, null, new INetCallBack() {
+        OkHttpUtils.getInstance().doGet(Constant.url+"/video", null, new INetCallBack() {
             @Override
             public void onSuccess(String response) {
                 videoList = FromGson.getInstance().getVideoBean(response);
-                Log.d("LoginActivity", "videoList获取成功,视频数量：" + videoList.size());
+                Log.d(TAG, "videoList获取成功,视频数量：" + videoList.size());
             }
 
             @Override
@@ -215,11 +216,11 @@ public class LoginActivity extends AppCompatActivity {
         @Override
         protected User doInBackground(User... users) {
             try {
-                Log.d("LoginActivity", "加载中=============================");
+                Log.d(TAG, "加载中=============================");
                 //进入主界面前获取服务器端视频
                 getVideo();
                 Thread.sleep(500);
-                Log.d("LoginActivity", "加载完成=============================");
+                Log.d(TAG, "加载完成=============================");
                 return users[0];
             } catch (InterruptedException e) {
                 e.printStackTrace();

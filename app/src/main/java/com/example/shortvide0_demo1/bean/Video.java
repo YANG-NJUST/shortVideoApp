@@ -1,8 +1,12 @@
 package com.example.shortvide0_demo1.bean;
 
+import android.net.Uri;
+
 import androidx.annotation.NonNull;
 
-public class Video {
+import java.io.Serializable;
+
+public class Video implements Serializable {
 
     private int id;
 

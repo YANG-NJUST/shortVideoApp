@@ -66,7 +66,7 @@ public class RegisterActivity extends AppCompatActivity {
             HashMap<String, String> params = new HashMap<>();
             params.put("account",regiAccount.getText().toString());
             params.put("pwd",regiPassword.getText().toString());
-            OkHttpUtils.getInstance().doPost(LoginActivity.HTTP_129_168_0_100_8080_DEMO_USER, null,
+            OkHttpUtils.getInstance().doPost(Constant.url+"/user", null,
                     params, new INetCallBack() {
                         @Override
                         public void onSuccess(String response) {

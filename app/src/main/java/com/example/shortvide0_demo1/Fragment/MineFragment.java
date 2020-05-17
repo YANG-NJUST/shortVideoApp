@@ -1,10 +1,17 @@
 package com.example.shortvide0_demo1.Fragment;
 
+import android.content.Context;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.media.MediaMetadataRetriever;
+import android.media.ThumbnailUtils;
 import android.os.Bundle;
+import android.provider.MediaStore;
 import android.view.LayoutInflater;
+import android.view.Menu;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.SimpleAdapter;
 import android.widget.TextView;
@@ -13,26 +20,34 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.widget.Toolbar;
+import androidx.cardview.widget.CardView;
 import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.GridLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 
+import com.example.shortvide0_demo1.Constant;
 import com.example.shortvide0_demo1.FanListActivity;
 import com.example.shortvide0_demo1.FocusListActivity;
 import com.example.shortvide0_demo1.Gson.FromGson;
 import com.example.shortvide0_demo1.MenuActivity;
 import com.example.shortvide0_demo1.R;
+import com.example.shortvide0_demo1.VideoAdapter;
 import com.example.shortvide0_demo1.bean.FanFocus;
+import com.example.shortvide0_demo1.bean.Video;
 import com.example.shortvide0_demo1.net.INetCallBack;
 import com.example.shortvide0_demo1.net.OkHttpUtils;
 
+import org.w3c.dom.Text;
+
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 public class MineFragment extends Fragment {
 
 
-    public static List<String>  focusList= new ArrayList<>();//该用户的关注列表;
-    public static List<String>  fanList= new ArrayList<>();//该用户的粉丝列表;
+
     private TextView tvLoveAmount,tvFanAmount,tvFocusAmount;
 
     @Nullable
@@ -49,38 +64,14 @@ public class MineFragment extends Fragment {
         tvFanAmount.setText(MenuActivity.user.getFanAmount()+"粉丝");
         //控件点击事件
         initEvent();
-        //该用户关注列表获取
-        OkHttpUtils.getInstance().doGet("http://192.168.74.233:8080/demo/focus/" + MenuActivity.user
-                .getUserAccount(), null, new INetCallBack() {
-            @Override
-            public void onSuccess(String response) {
-                List<FanFocus> fanFocusList = FromGson.getInstance().getFanFocusBean(response);
-                for (FanFocus fanFocus : fanFocusList) {
-                    focusList.add(fanFocus.getFocusUser());
-                }
-            }
 
-            @Override
-            public void onFailed(Throwable ex) {
-                Toast.makeText(getActivity(), "获取关注列表失败！", Toast.LENGTH_LONG).show();
-            }
-        });
-        //该用户粉丝列表获取
-        OkHttpUtils.getInstance().doGet("http://192.168.74.233:8080/demo/focusUser/" + MenuActivity.user
-                .getUserAccount(), null, new INetCallBack() {
-            @Override
-            public void onSuccess(String response) {
-                List<FanFocus> fanFocusList = FromGson.getInstance().getFanFocusBean(response);
-                for (FanFocus fanFocus : fanFocusList) {
-                    fanList.add(fanFocus.getUser());
-                }
-            }
+        //本用户视频缩略图列表
+        RecyclerView recyclerView=(RecyclerView)view.findViewById(R.id.video_recyclerView);//滑动布局
+        GridLayoutManager layoutManager=new GridLayoutManager(getActivity(),2);//内部布局
+        recyclerView.setLayoutManager(layoutManager);//设置内部布局应用于滑动布局
+        VideoAdapter videoAdapter=new VideoAdapter(MenuActivity.myVideoList);//初始化适配器
+        recyclerView.setAdapter(videoAdapter);//设置适配器
 
-            @Override
-            public void onFailed(Throwable ex) {
-                Toast.makeText(getActivity(), "获取关注列表失败！", Toast.LENGTH_LONG).show();
-            }
-        });
         return view;
     }
 
@@ -98,5 +89,9 @@ public class MineFragment extends Fragment {
             }
         });
     }
+
+
+
+
 
 }

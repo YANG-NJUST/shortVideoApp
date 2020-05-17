@@ -4,7 +4,9 @@
     <!-- 读取sd卡/网络访问 -->
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
-    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.INTERNET" /> <!-- 录制声音 -->
+    <uses-permission android:name="android.permission.RECORD_AUDIO" /> <!-- 摄像头 -->
+    <uses-permission android:name="android.permission.CAMERA" />
 
     <application
         android:allowBackup="true"
@@ -15,7 +17,9 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".FocusListActivity"></activity>
+        <activity android:name=".PlayVideoActivity"></activity>
+        <activity android:name=".RecordVideoActivity" />
+        <activity android:name=".FocusListActivity" />
         <activity android:name=".FanListActivity" />
         <activity android:name=".MenuActivity" />
         <activity android:name=".LoginActivity">
@@ -29,6 +33,7 @@
         <activity android:name=".MainActivity" />
         <activity android:name=".TestActivity" />
         <activity android:name=".AddVideoActivity" />
+        <activity android:name=".ShowVideoActivity" />
     </application>
 
 </manifest>

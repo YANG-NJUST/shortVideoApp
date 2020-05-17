@@ -1,8 +1,9 @@
 <resources>
-    <string name="app_name">shortVide0-demo1</string>
+    <string name="app_name">ShortVideoApp</string>
     <string name="homepage">首页</string>
     <string name="message">消息</string>
     <string name="mine">我的</string>
     <string name="focus">关注</string>
+    <string name="MyVideo">我的视频</string>
 
 </resources>

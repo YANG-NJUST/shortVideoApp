@@ -4,10 +4,13 @@
     android:layout_height="match_parent">
 
 
-    <TextView
+    <androidx.viewpager2.widget.ViewPager2
+        android:id="@+id/pagers_focus"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:text="Focus"
-        android:textSize="30sp"
-        android:gravity="center"/>
+        android:orientation="vertical">
+
+
+    </androidx.viewpager2.widget.ViewPager2>
+
 </LinearLayout>

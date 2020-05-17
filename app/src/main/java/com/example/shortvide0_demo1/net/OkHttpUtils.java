@@ -125,7 +125,7 @@ public class OkHttpUtils {
         executeRequest(callBack, request);
     }
 
-    private void executeRequest(INetCallBack callBack, Request request) {
+    public void executeRequest(INetCallBack callBack, Request request) {
         Call call = mOkHttpClient.newCall(request);
         call.enqueue(new Callback() {
             @Override
