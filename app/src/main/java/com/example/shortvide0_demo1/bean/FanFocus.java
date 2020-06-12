@@ -4,7 +4,6 @@ import androidx.annotation.NonNull;
 
 public class FanFocus {
 
-
     private String user;
 
     private String focusUser;

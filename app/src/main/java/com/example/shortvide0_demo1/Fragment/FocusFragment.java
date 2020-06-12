@@ -18,14 +18,11 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.viewpager2.widget.ViewPager2;
 
-import com.example.shortvide0_demo1.Constant;
+import com.example.shortvide0_demo1.net.Constant;
 import com.example.shortvide0_demo1.MenuActivity;
 import com.example.shortvide0_demo1.R;
-import com.example.shortvide0_demo1.bean.Video;
 import com.example.shortvide0_demo1.net.INetCallBack;
 import com.example.shortvide0_demo1.net.OkHttpUtils;
-
-import java.util.List;
 
 public class FocusFragment  extends Fragment {
 
@@ -136,6 +133,8 @@ public class FocusFragment  extends Fragment {
             ivPlay = itemView.findViewById(R.id.iv_play);
             imageButton = itemView.findViewById(R.id.button_loveit);
             tvLoveAmount = itemView.findViewById(R.id.love_amount_textView);
+            itemView.findViewById(R.id.button_focus).setVisibility(View.GONE);
+            itemView.findViewById(R.id.tv_focus).setVisibility(View.GONE);
         }
 
     }

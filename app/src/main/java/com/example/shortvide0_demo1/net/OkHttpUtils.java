@@ -50,6 +50,12 @@ public class OkHttpUtils {
     }
 
 
+    /**
+     *
+     * @param url
+     * @param headers
+     * @param callBack
+     */
     public void doGet(String url, HashMap<String, String> headers, INetCallBack callBack) {
         Request.Builder builder = new Request.Builder();
         if (headers != null) {
@@ -63,6 +69,13 @@ public class OkHttpUtils {
         executeRequest(callBack, request);
     }
 
+    /**
+     *
+     * @param url
+     * @param headers
+     * @param params
+     * @param callBack
+     */
     public void doPost(String url, HashMap<String, String> headers, HashMap<String, String> params, INetCallBack callBack) {
         FormBody.Builder formBodyBuilder = new FormBody.Builder();
         if (params != null) {
@@ -125,6 +138,11 @@ public class OkHttpUtils {
         executeRequest(callBack, request);
     }
 
+    /**
+     *
+     * @param callBack
+     * @param request
+     */
     public void executeRequest(INetCallBack callBack, Request request) {
         Call call = mOkHttpClient.newCall(request);
         call.enqueue(new Callback() {

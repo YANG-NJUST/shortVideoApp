@@ -1,127 +1,118 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:orientation="vertical">
+    android:layout_height="match_parent">
 
-    <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+
+    <!-- 视频界面左下角布局 显示发布视频的用户和视频描述信息-->
+    <VideoView
+        android:id="@+id/videoView_PlayVideo"
         android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="1">
+        android:layout_height="match_parent"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentBottom="true">
 
+    </VideoView>
 
-        <!-- 视频界面左下角布局 显示发布视频的用户和视频描述信息-->
-        <VideoView
-            android:id="@+id/videoView_PlayVideo"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_alignParentStart="true"
-            android:layout_alignParentTop="true">
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:orientation="vertical">
 
-        </VideoView>
-
-        <LinearLayout
+        <TextView
+            android:id="@+id/tv_user_name_PlayVideo"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignParentBottom="true"
-            android:orientation="vertical">
+            android:layout_marginHorizontal="10dp"
+            android:text="用户名"
+            android:textColor="#ffffff"
+            android:textSize="20sp" />
 
-            <TextView
-                android:id="@+id/tv_user_name_PlayVideo"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginHorizontal="10dp"
-                android:text="用户名"
-                android:textColor="#ffffff"
-                android:textSize="20sp" />
-
-            <TextView
-                android:id="@+id/tv_video_info_PlayVideo"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_margin="10dp"
-                android:text="视频描述信息"
-                android:textColor="#ffffff"
-                android:textSize="20sp" />
-
-        </LinearLayout>
-
-
-        <LinearLayout
+        <TextView
+            android:id="@+id/tv_video_info_PlayVideo"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignParentRight="true"
-            android:layout_centerInParent="true"
-            android:layout_marginRight="10dp"
-            android:orientation="vertical">
+            android:layout_margin="10dp"
+            android:text="视频描述信息"
+            android:textColor="#ffffff"
+            android:textSize="20sp" />
+
+    </LinearLayout>
 
 
-            <ImageButton
-                android:id="@+id/button_loveit_PlayVideo"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:background="@android:color/transparent"
-                android:src="@mipmap/icon_loveit_normal" />
-
-            <TextView
-                android:id="@+id/love_amount_textView_PlayVideo"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:layout_marginBottom="20dp"
-                android:text="点赞"
-                android:textColor="#ffffff" />
-
-            <ImageView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:background="@android:color/transparent"
-                android:src="@mipmap/icon_comment" />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:layout_marginBottom="20dp"
-                android:text="评论"
-                android:textColor="#ffffff" />
-
-            <ImageView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:background="@android:color/transparent"
-                android:src="@mipmap/icon_share" />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:layout_marginBottom="20dp"
-                android:text="分享"
-                android:textColor="#ffffff" />
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_centerInParent="true"
+        android:layout_marginRight="10dp"
+        android:orientation="vertical">
 
 
-        </LinearLayout>
+        <ImageButton
+            android:id="@+id/button_loveit_PlayVideo"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@android:color/transparent"
+            android:src="@mipmap/icon_loveit_normal" />
+
+        <TextView
+            android:id="@+id/love_amount_textView_PlayVideo"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginBottom="20dp"
+            android:text="点赞"
+            android:textColor="#ffffff" />
 
         <ImageView
-            android:id="@+id/iv_play_PlayVideo"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_centerInParent="true"
-            android:alpha="0.5"
-            android:src="@mipmap/icon_play"
-            android:visibility="invisible">
+            android:background="@android:color/transparent"
+            android:src="@mipmap/icon_comment" />
 
-        </ImageView>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginBottom="20dp"
+            android:text="评论"
+            android:textColor="#ffffff" />
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@android:color/transparent"
+            android:src="@mipmap/icon_share" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginBottom="20dp"
+            android:text="分享"
+            android:textColor="#ffffff" />
 
 
-    </RelativeLayout>
+    </LinearLayout>
 
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="50dp"/>
+    <ImageView
+        android:id="@+id/iv_play_PlayVideo"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:alpha="0.5"
+        android:src="@mipmap/icon_play"
+        android:visibility="invisible">
 
-</LinearLayout>
+    </ImageView>
+
+
+</RelativeLayout>
+
 
 
 

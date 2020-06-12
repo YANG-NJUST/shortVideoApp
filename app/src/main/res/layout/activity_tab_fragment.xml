@@ -49,7 +49,7 @@
             android:id="@+id/rb_message"
             style="@style/tab_menu_item"
             android:drawableTop="@drawable/tab_menu_message"
-            android:text="@string/message" />
+            android:text="@string/search" />
 
         <RadioButton
             android:id="@+id/rb_mine"

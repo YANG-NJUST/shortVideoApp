@@ -10,23 +10,11 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.Toast;
 
-import com.example.shortvide0_demo1.Gson.FromGson;
 import com.example.shortvide0_demo1.bean.User;
+import com.example.shortvide0_demo1.net.Constant;
 import com.example.shortvide0_demo1.net.INetCallBack;
 import com.example.shortvide0_demo1.net.OkHttpUtils;
 
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
-
-import java.io.ByteArrayOutputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.OutputStream;
-import java.io.Serializable;
-import java.net.HttpURLConnection;
-import java.net.MalformedURLException;
-import java.net.URL;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -95,5 +83,11 @@ public class RegisterActivity extends AppCompatActivity {
             }
         }
         return false;
+    }
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        this.finish();
     }
 }

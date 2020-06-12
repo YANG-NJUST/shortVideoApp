@@ -7,9 +7,11 @@
     <VideoView
         android:id="@+id/videoView"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
-
-    </VideoView>
+        android:layout_height="match_parent"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentBottom="true"/>
 
     <!-- 视频界面左下角布局 显示发布视频的用户和视频描述信息-->
     <LinearLayout
@@ -42,8 +44,8 @@
     <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_centerInParent="true"
         android:layout_alignParentRight="true"
+        android:layout_centerInParent="true"
         android:layout_marginRight="10dp"
         android:orientation="vertical">
 
@@ -59,41 +61,26 @@
             android:id="@+id/love_amount_textView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="20dp"
-            android:textColor="#ffffff"
             android:layout_gravity="center"
+            android:layout_marginBottom="20dp"
             android:text="点赞"
-            />
+            android:textColor="#ffffff" />
 
-        <ImageView
+        <ImageButton
+            android:id="@+id/button_focus"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:background="@android:color/transparent"
-            android:src="@mipmap/icon_comment" />
+            android:src="@mipmap/icon_focus" />
 
         <TextView
+            android:id="@+id/tv_focus"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="20dp"
-            android:textColor="#ffffff"
             android:layout_gravity="center"
-            android:text="评论" />
-
-        <ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:background="@android:color/transparent"
-            android:src="@mipmap/icon_share"
-             />
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
             android:layout_marginBottom="20dp"
-            android:textColor="#ffffff"
-            android:layout_gravity="center"
-            android:text="分享" />
-
+            android:text="@string/focus"
+            android:textColor="#ffffff" />
 
     </LinearLayout>
 

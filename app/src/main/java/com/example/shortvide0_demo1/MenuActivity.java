@@ -1,41 +1,38 @@
 package com.example.shortvide0_demo1;
 
-import android.Manifest;
-import android.app.Activity;
+import android.content.DialogInterface;
 import android.content.Intent;
-import android.content.pm.PackageManager;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.provider.MediaStore;
 import android.util.Log;
-import android.view.Menu;
 import android.view.View;
+import android.view.WindowManager;
 import android.widget.Toast;
 
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.app.ActivityCompat;
 import androidx.fragment.app.FragmentTransaction;
 
 import com.example.shortvide0_demo1.Fragment.FocusFragment;
 import com.example.shortvide0_demo1.Fragment.HomepageFragment;
-import com.example.shortvide0_demo1.Fragment.MessageFragment;
+import com.example.shortvide0_demo1.Fragment.SearchFragment;
 import com.example.shortvide0_demo1.Fragment.MineFragment;
 import com.example.shortvide0_demo1.Gson.FromGson;
 import com.example.shortvide0_demo1.bean.FanFocus;
 import com.example.shortvide0_demo1.bean.User;
 import com.example.shortvide0_demo1.bean.Video;
+import com.example.shortvide0_demo1.net.Constant;
 import com.example.shortvide0_demo1.net.INetCallBack;
 import com.example.shortvide0_demo1.net.OkHttpUtils;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 
 public class MenuActivity extends AppCompatActivity {
 
     private static final String TAG = "MenuActivity";
-    public static User user;
+    public static User user;   //标示当前登录用户
     public static List<Video> videoList;
     public static List<String> focusList = new ArrayList<>();//该用户的关注列表;
     public static List<String> fanList = new ArrayList<>();//该用户的粉丝列表;
@@ -46,6 +43,10 @@ public class MenuActivity extends AppCompatActivity {
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        //防止布局输入框顶起
+        getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN);
+
         setContentView(R.layout.activity_tab_fragment);
 
         //获取从LoginActivity传来的User对象 即当前成功登录用户
@@ -185,7 +186,7 @@ public class MenuActivity extends AppCompatActivity {
                 transaction.replace(R.id.container, new FocusFragment());
                 break;
             case R.id.rb_message:
-                transaction.replace(R.id.container, new MessageFragment());
+                transaction.replace(R.id.container, new SearchFragment());
                 break;
             case R.id.rb_mine:
                 transaction.replace(R.id.container, new MineFragment());
@@ -196,4 +197,26 @@ public class MenuActivity extends AppCompatActivity {
     }
 
 
+    /**
+     * 退出前提示
+     */
+    @Override
+    public void onBackPressed() {
+        //super.onBackPressed();
+        AlertDialog.Builder builder=new AlertDialog.Builder(MenuActivity.this);
+        builder.setTitle("确定要退出吗");
+        builder.setPositiveButton("确定", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                finish();
+            }
+        });
+        builder.setNeutralButton("点错了", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                return;
+            }
+        });
+        builder.show();
+    }
 }

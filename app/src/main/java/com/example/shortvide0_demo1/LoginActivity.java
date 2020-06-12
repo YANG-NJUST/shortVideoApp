@@ -8,39 +8,26 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.util.Log;
-import android.view.Menu;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ProgressBar;
 import android.widget.Toast;
 
-import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
-import androidx.core.content.ContextCompat;
 
 import com.example.shortvide0_demo1.Gson.FromGson;
 import com.example.shortvide0_demo1.bean.User;
 import com.example.shortvide0_demo1.bean.Video;
+import com.example.shortvide0_demo1.net.Constant;
 import com.example.shortvide0_demo1.net.INetCallBack;
 import com.example.shortvide0_demo1.net.OkHttpUtils;
-import com.google.gson.Gson;
-import com.google.gson.JsonArray;
-import com.google.gson.JsonElement;
-import com.google.gson.JsonParser;
-
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
 
 import java.io.Serializable;
 import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Iterator;
 import java.util.List;
-import java.util.Map;
 
 public class LoginActivity extends AppCompatActivity {
 
@@ -53,6 +40,8 @@ public class LoginActivity extends AppCompatActivity {
     private ProgressBar mPbLogin;
     private List<User> userList = new ArrayList<>();
     public static List<Video> videoList = new ArrayList<>();
+    private ProgressTask pTask;
+    //所需权限
     private static final int REQUEST_EXTERNAL_STORAGE = 1;
     private static String[] PERMISSIONS_STORAGE = {
             Manifest.permission.READ_EXTERNAL_STORAGE,
@@ -60,8 +49,6 @@ public class LoginActivity extends AppCompatActivity {
             Manifest.permission.CAMERA,
             Manifest.permission.RECORD_AUDIO
     };
-    private ProgressTask pTask;
-
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -167,14 +154,19 @@ public class LoginActivity extends AppCompatActivity {
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        mEtAccount.setText(data.getStringExtra("account"));
-        mEtPassword.setText(data.getStringExtra("pwd"));
+        //注册成功返回
+        if(resultCode == RESULT_OK){
+            mEtAccount.setText(data.getStringExtra("account"));
+            mEtPassword.setText(data.getStringExtra("pwd"));
+        }
+        //返回键返回
     }
 
+    //绑定控件
     private void initView() {
         mEtAccount = findViewById(R.id.et_login_account);
         mEtPassword = findViewById(R.id.et_login_password);
-        mEtAccount.setText("admin");
+        mEtAccount.setText("user1");
         mEtPassword.setText("123");
         mBtnLogin = findViewById(R.id.login_button);
         mBtnRegister = findViewById(R.id.register_button);
@@ -254,6 +246,6 @@ public class LoginActivity extends AppCompatActivity {
     @Override
     protected void onStop() {
         super.onStop();
-        pTask.cancel(true);
+        //pTask.cancel(true);
     }
 }

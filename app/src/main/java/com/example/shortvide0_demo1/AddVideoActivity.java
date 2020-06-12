@@ -5,17 +5,12 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.Cursor;
 import android.graphics.Bitmap;
-import android.graphics.Camera;
 import android.media.MediaMetadataRetriever;
-import android.media.MediaRecorder;
 import android.media.ThumbnailUtils;
 import android.net.Uri;
-import android.os.Build;
 import android.os.Bundle;
-import android.os.Environment;
 import android.provider.MediaStore;
 import android.text.TextUtils;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -25,24 +20,18 @@ import android.widget.Toast;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.content.FileProvider;
 
+import com.example.shortvide0_demo1.net.Constant;
 import com.example.shortvide0_demo1.net.INetCallBack;
 import com.example.shortvide0_demo1.net.OkHttpUtils;
 
-import org.jetbrains.annotations.NotNull;
-
 import java.io.File;
-import java.io.IOException;
 
-import okhttp3.Call;
-import okhttp3.Callback;
 import okhttp3.MediaType;
 import okhttp3.MultipartBody;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.RequestBody;
-import okhttp3.Response;
 
 /**
  * 上传视频
